@@ -1,0 +1,107 @@
+{
+  "gtx 1050": {
+    "name": "GTX 1050",
+    "company": "Nvidia",
+    "msrp": 110
+  },
+  "gtx 1050 ti": {
+    "name": "GTX 1050 Ti",
+    "company": "Nvidia",
+    "msrp": 140
+  },
+  "gtx 1060": {
+    "name": "GTX 1060",
+    "company": "Nvidia",
+    "msrp": 250
+  },
+  "gtx 1070": {
+    "name": "GTX 1070",
+    "company": "Nvidia",
+    "msrp": 380
+  },
+  "gtx 1070": {
+    "name": "GTX 1070 Ti",
+    "company": "Nvidia",
+    "msrp": 450
+  },
+  "gtx 1080": {
+    "name": "GTX 1080",
+    "company": "Nvidia",
+    "msrp": 600
+  },
+  "gtx 1080 ti": {
+    "name": "GTX 1080 Ti",
+    "company": "Nvidia",
+    "msrp": 700
+  },
+  "gtx 1660": {
+    "name": "GTX 1660",
+    "company": "Nvidia",
+    "msrp": 220
+  },
+  "gtx 1660 super": {
+    "name": "GTX 1660 Super",
+    "company": "Nvidia",
+    "msrp": 230
+  },
+  "gtx 1660 ti": {
+    "name": "GTX 1660 Ti",
+    "company": "Nvidia",
+    "msrp": 280
+  },
+  "rtx 2060": {
+    "name": "RTX 2060",
+    "company": "Nvidia",
+    "msrp": 350
+  },
+  "rtx 2070": {
+    "name": "RTX 2070",
+    "company": "Nvidia",
+    "msrp": 500
+  },
+  "rtx 2070 super": {
+    "name": "RTX 2070 Super",
+    "company": "Nvidia",
+    "msrp": 500
+  },
+  "rtx 2080": {
+    "name": "RTX 2080",
+    "company": "Nvidia",
+    "msrp": 700
+  },
+  "rtx 2080 super": {
+    "name": "RTX 2080 Super",
+    "company": "Nvidia",
+    "msrp": 700
+  },
+  "rtx 2080 ti": {
+    "name": "RTX 2080 Ti",
+    "company": "Nvidia",
+    "msrp": 1000
+  },
+  "rtx 3060": {
+    "name": "RTX 3060",
+    "company": "Nvidia",
+    "msrp": 330
+  },
+  "rtx 3060 ti": {
+    "name": "RTX 3060 Ti",
+    "company": "Nvidia",
+    "msrp": 400
+  },
+  "rtx 3070": {
+    "name": "RTX 3070",
+    "company": "Nvidia",
+    "msrp": 500
+  },
+  "rtx 3080": {
+    "name": "RTX 3080",
+    "company": "Nvidia",
+    "msrp": 700
+  },
+  "rtx 3090": {
+    "name": "RTX 3090",
+    "company": "Nvidia",
+    "msrp": 1500
+  }
+}

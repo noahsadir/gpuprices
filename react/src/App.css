@@ -1,0 +1,74 @@
+.App {
+  background-color: #111115;
+  color: #ffffff;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+
+}
+.list-item {
+  background-color: #FFFFFF00;
+}
+
+.list-item:hover {
+  background-color: #FFFFFF11;
+}
+
+.list-item:active {
+  background-color: #FFFFFF22;
+}
+
+.list-item-selected {
+  background-color: #7953d2;
+}
+
+/* Width >768px
+
+#item-list-container {
+  flex-grow: 1;
+}
+
+#item-view-container {
+  flex-grow: 2;
+}
+
+ ---- */
+
+@media screen and (max-width: 768px) {
+
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
