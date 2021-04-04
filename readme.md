@@ -12,9 +12,9 @@ This web app tracks the average price of eBay auctions ending soonest, which can
 
 - Click on the desired card on the list to view a chart with a timeframe toggle below. It should have an app-like interface which is pretty self-explanatory.
 
-(You can install it as an iOS web app too! "Share" -> "Add to Home Screen")
+You can install it as an iOS web app too! "Share" -> "Add to Home Screen"
 
-- I'm currently working on built-in PWA support for Chrome/Android web app functionality, but in the meanwhile,
+I'm currently working on built-in PWA support for Chrome/Android web app functionality, but in the meanwhile,
 I made it into a web app using my other project, [Webappify](https://webappify.noahsadir.io/apps/6069f802b79c9/).
 
 ### How the data is collected
@@ -22,8 +22,7 @@ I made it into a web app using my other project, [Webappify](https://webappify.n
 The python script runs in the background and scrapes eBay at a specified interval (15 mins default).
 To determine the price of cards, the following criteria are used:
 
-- First page of listings
-- Sorted by auctions ending soonest
+- First page of listings sorted by auctions ending soonest
 - Average of 10 median prices
 
 These prices are then averaged together to form the final price estimate.
