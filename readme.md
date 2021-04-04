@@ -8,14 +8,14 @@ This web app tracks the average price of eBay auctions ending soonest, which can
 
 ### How to use
 
-Visit the website [gpuprices.noahsadir.io](https://gpuprices.noahsadir.io).
+- Visit the website [gpuprices.noahsadir.io](https://gpuprices.noahsadir.io).
 
-Click on the desired card on the list to view a chart with a timeframe toggle below. It should have an app-like interface which is pretty self-explanatory.
+- Click on the desired card on the list to view a chart with a timeframe toggle below. It should have an app-like interface which is pretty self-explanatory.
 
-You can install it as an iOS web app too!
+(You can install it as an iOS web app too! "Share" -> "Add to Home Screen")
 
-I'm currently working on built-in PWA support for Chrome/Android web app functionality, but in the meanwhile,
-I made a web app using my other project [Webappify](https://webappify.noahsadir.io/apps/6069f802b79c9/)
+- I'm currently working on built-in PWA support for Chrome/Android web app functionality, but in the meanwhile,
+I made it into a web app using my other project, [Webappify](https://webappify.noahsadir.io/apps/6069f802b79c9/).
 
 ### How the data is collected
 
