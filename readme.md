@@ -2,9 +2,20 @@
 
 ### Track the prices of various graphics cards on eBay
 
-As many may know, demand for graphics cards has skyrocketed and supply shortages have led to them being out of stock nearly everywhere, causing scalpers to list cards on eBay at incredibly marked up prices.
+As many may know, demand for graphics cards has skyrocketed and supply shortages have led to them being out of stock nearly everywhere, causing cards to sell on eBay at incredibly marked up prices.
 
 This web app tracks the average price of eBay auctions ending soonest, which can usually provide a good indicator for what people are willing to pay for these cards.
+
+### How to use
+
+Visit the website [gpuprices.noahsadir.io](https://gpuprices.noahsadir.io).
+
+Click on the desired card on the list to view a chart with a timeframe toggle below. It should have an app-like interface which is pretty self-explanatory.
+
+You can install it as an iOS web app too!
+
+I'm currently working on built-in PWA support for Chrome/Android web app functionality, but in the meanwhile,
+I made a web app using my other project [Webappify](https://webappify.noahsadir.io/apps/6069f802b79c9/)
 
 ### How the data is collected
 
@@ -18,7 +29,7 @@ To determine the price of cards, the following criteria are used:
 These prices are then averaged together to form the final price estimate.
 Note: I'm not a statistician. There are certainly better ways to get an accurate price, but I've found that this is the simplest way to get a fairly accurate price.
 
-#### Why pick the 10 median prices?
+### Why pick the 10 median prices?
 
 There tends to be significant outliers which affect the data, such as:
 - An auction listed with an outrageous starting price with no bids (e.g. $20,000 for a GTX 1050)
@@ -27,4 +38,14 @@ There tends to be significant outliers which affect the data, such as:
 
 As such, picking the 10 median cards (out of 50ish listings) seems to be the best way, though it may be a slight underestimate as the auctions that get bid up last minute tend to get thrown out.
 
-Still, I personally find a 5-10% underestimate better than a random 600% overestimate caused by the aforementioned outliers.
+Still, I personally find a 5-10% underestimate better than a random 600% spike in the data caused by the aforementioned outliers.
+
+### Limitations
+
+This data is purely for entertainment purposes and to highlight the ridiculous prices that these cards are selling for. They are in no way to be used for making buying decisions and should not be relied on to do so.
+
+I do not support nor condone scalpers and certainly would not purchase any of these cards myself due to ethical reasons and common sense.
+
+Furthermore, it's particularly hard to get the price of a specific variant of a GPU, especially the base models. For example, the cards that show up under the search 'rtx 3060' may include a mix of the standard 3060 and the 3060 Ti. Also, I've seen non-Ti cards show up under 'rtx 2080 ti' because the card is listed as 'RTX 2080 (NOT Ti)'.
+
+Overall, as mentioned before, this is for entertainment purposes only and serves to give a ballpark estimate rather than a precise price quote.
