@@ -9,6 +9,8 @@ $pricesList = scandir('../../../gpu_prices/prices/');
 
 $output = '{';
 
+//TODO: Make operations safer; script makes lots of assumptions
+
 //Go through each item in prices directory
 foreach ($pricesList as $priceFile){
   //Ignore dot files

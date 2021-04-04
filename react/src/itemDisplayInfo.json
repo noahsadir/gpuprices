@@ -1,6 +1,6 @@
 {
   "gtx 1050": {
-    "name": "GTX 1050",
+    "name": "GTX 1050 - All",
     "company": "Nvidia",
     "msrp": 110
   },
@@ -10,12 +10,12 @@
     "msrp": 140
   },
   "gtx 1060": {
-    "name": "GTX 1060",
+    "name": "GTX 1060 - All",
     "company": "Nvidia",
     "msrp": 250
   },
   "gtx 1070": {
-    "name": "GTX 1070",
+    "name": "GTX 1070 - All",
     "company": "Nvidia",
     "msrp": 380
   },
@@ -25,7 +25,7 @@
     "msrp": 450
   },
   "gtx 1080": {
-    "name": "GTX 1080",
+    "name": "GTX 1080 - All",
     "company": "Nvidia",
     "msrp": 600
   },
@@ -35,7 +35,7 @@
     "msrp": 700
   },
   "gtx 1660": {
-    "name": "GTX 1660",
+    "name": "GTX 1660 - All",
     "company": "Nvidia",
     "msrp": 220
   },
@@ -50,12 +50,12 @@
     "msrp": 280
   },
   "rtx 2060": {
-    "name": "RTX 2060",
+    "name": "RTX 2060 - All",
     "company": "Nvidia",
     "msrp": 350
   },
   "rtx 2070": {
-    "name": "RTX 2070",
+    "name": "RTX 2070 - All",
     "company": "Nvidia",
     "msrp": 500
   },
@@ -65,7 +65,7 @@
     "msrp": 500
   },
   "rtx 2080": {
-    "name": "RTX 2080",
+    "name": "RTX 2080 - All",
     "company": "Nvidia",
     "msrp": 700
   },
@@ -80,7 +80,7 @@
     "msrp": 1000
   },
   "rtx 3060": {
-    "name": "RTX 3060",
+    "name": "RTX 3060 - All",
     "company": "Nvidia",
     "msrp": 330
   },
@@ -90,17 +90,17 @@
     "msrp": 400
   },
   "rtx 3070": {
-    "name": "RTX 3070",
+    "name": "RTX 3070 - All",
     "company": "Nvidia",
     "msrp": 500
   },
   "rtx 3080": {
-    "name": "RTX 3080",
+    "name": "RTX 3080 - All",
     "company": "Nvidia",
     "msrp": 700
   },
   "rtx 3090": {
-    "name": "RTX 3090",
+    "name": "RTX 3090 - All",
     "company": "Nvidia",
     "msrp": 1500
   }
