@@ -3,9 +3,8 @@
            App.js
   Created on March 23, 2021
 -----------------------------
-
------------------------------
 */
+
 import logo from './logo.svg';
 import backButton from './res/arrow_back_white_24dp.svg';
 import githubLogo from './res/github.svg';
@@ -15,6 +14,7 @@ import {JSON_RETRIEVE} from './Requests';
 import { Line } from 'react-chartjs-2'
 
 var itemDisplayInfo = require('./itemDisplayInfo.json');
+var isTestMode = false;
 
 /**
  * Main object and "starting" point of the app.
@@ -34,23 +34,27 @@ export default class App extends React.Component {
   }
 
   render() {
+    //List item selected; save its value for later reference
     const itemSelected = (item) => {
       this.setState({selectedItem: item});
     }
 
+    //Back button was selected (mobile), deselect item from list
     const navigationBackSelected = () => {
       this.setState({selectedItem: null});
     }
 
+    //Price data not yet retrieved; fetch asynchronously
     if (this.state.didFetchData == false) {
       JSON_RETRIEVE("FETCH_PRICES", (type, success, data) => {
         if (success) {
-          console.log(data);
+          //console.log(data);
           this.setState({data: data, didFetchData: true});
         }
-      });
+      }, isTestMode); //Will fetch dummy if isTestMode is true
     }
 
+    //UI code
     return (
       <div className="App" style={{display: "flex", flexFlow: "column"}}>
         <div id="navigation-container" style={{display: "flex", flexGrow: 1, height: 64, maxHeight: 64, minHeight: 64}}>
@@ -82,10 +86,13 @@ class NavigationBar extends React.Component {
   }
 
   render() {
+
+    //Pass back button function call to parent object
     const handleBackButtonClick = (event) => {
-        this.props.onBack();
+        this.props.onBack(); //Call parent function
     }
 
+    //UI code
     return (
       <div id="navigation-bar" style={{display: "flex", height: 64, backgroundColor: '#000004', width: "100%"}}>
         <div id="back-button-container" class={(this.props.selectedItem == null) ? "content-inactive" : "content-active"} style={{display: "none", flexGrow: 1, minWidth: 64, maxWidth: 64, minHeight: 64, maxHeight: 64, padding: 0, margin: 0}}>
@@ -112,7 +119,8 @@ class NavigationBar extends React.Component {
  * Displays a list of available items to get data for.
  *
  * @param onSelect the function which should be called when the selection changes
- * @param displayInfo a JSON object containing background info on the item with format {@code { "item_1_name":{"name":"Fancy Name","company":"Example Inc.","msrp":700},"item_2_name"...}}
+ * @param displayInfo a JSON object containing background info on the item with format
+ *                    {@code { "item_1_name":{"name":"Fancy Name","company":"Example Inc.","msrp":700},"item_2_name"...}}
  * @param selectedItem the item currently selected (or at least should be)
  */
 class ItemList extends React.Component {
@@ -121,18 +129,22 @@ class ItemList extends React.Component {
   }
 
   render() {
+
+    //Pass function call to parent, but only if the item clicked was not the one currently selected.
     const itemClicked = (event) => {
       //Only run select action if different item is selected
       if (this.props.selectedItem != event.target.id) {
         this.setState({selectedItem: event.target.id});
-        this.props.onSelect(event.target.id);
+        this.props.onSelect(event.target.id); //Call parent function
       }
     }
 
+    //Replace displayInfo with empty object if null
     var displayInfo = (this.props.displayInfo == null) ? {} : this.props.displayInfo;
     var listItems = [];
+
+    //Go through every object in list and create a new list item with the appropriate metadata
     for (var itemKey in displayInfo) {
-      //console.log(displayInfo[itemKey].name);
       listItems.push(
         <div id="list-item-container" class={(itemKey == this.props.selectedItem) ? "list-item-selected" : "list-item"} id={itemKey} onClick={itemClicked} style={{width: "auto", height: 36, padding: 8, margin: 8, marginLeft: 16, borderRadius: 8}}>
           <p class="list-item-title" id={itemKey} style={{height: 20, lineHeight: "20px", margin: 0, paddingLeft: 8, fontSize: 20, fontWeight: 600}}>{displayInfo[itemKey].name}</p>
@@ -141,6 +153,7 @@ class ItemList extends React.Component {
       );
     }
 
+    //UI code
     return (
       <div id="item-list" style={{display: "block", overflowY: "scroll", overflowX: "hidden", width: "100%", height: "100%"}}>
         {listItems}
@@ -149,6 +162,14 @@ class ItemList extends React.Component {
   }
 }
 
+/**
+ * Main view for item details. Includes item data and price chart.
+ *
+ * @param data the price data
+ * @param displayInfo a JSON object containing background info on the item with format
+ *                    {@code { "item_1_name":{"name":"Fancy Name","company":"Example Inc.","msrp":700},"item_2_name"...}}
+ * @param selectedItem the item currently selected
+ */
 class ItemView extends React.Component {
   constructor(props) {
     super(props);
@@ -156,14 +177,15 @@ class ItemView extends React.Component {
       selectedTimeframe: "1d",
     }
   }
+
   render() {
 
     var companyName = "NULL";
     var itemName = "Item";
     var lastPrice = 0;
     var itemMsrp = 0;
-    var chartData = [];
 
+    //Set display values for metadata
     if (this.props.displayInfo != null && this.props.selectedItem != null) {
       companyName = (this.props.displayInfo[this.props.selectedItem].company != null) ? this.props.displayInfo[this.props.selectedItem].company : "Company";
       itemName = (this.props.displayInfo[this.props.selectedItem].name != null) ? this.props.displayInfo[this.props.selectedItem].name : "Item Name";
@@ -171,12 +193,17 @@ class ItemView extends React.Component {
     }
 
     var pricePlotArray = [];
+    var chartData = [];
+
+    //Convert JSON price data into 2D array of [x,y] values for plotting on chart
     for (var dateKey in this.props.data) {
       if (this.props.data[dateKey][this.props.selectedItem] != null) {
         pricePlotArray.push([parseInt(dateKey), this.props.data[dateKey][this.props.selectedItem]]);
       }
     }
 
+    //Set up data in a format which can be more easily processed
+    //NOTE: Each {label:..., data:...} object represents a single series
     var inputData = [
       {
         label: itemName,
@@ -184,40 +211,111 @@ class ItemView extends React.Component {
       }
     ];
 
+    //Process data in each series
     for (var key in inputData) {
+
       var dataForSet = [];
-      var color = '#7953d2';
+      var color = '#7953d2'; //Line color of chart
       if (inputData[key].color != null) {
         color = inputData[key].color;
       }
-      var dataSet = {label: inputData[key].label, data: dataForSet, pointRadius: 1, fill: false, backgroundColor: color,borderColor: (color)};
 
+      //Set up data in form accepted by ChartJS
+      var dataSet = {
+        label: inputData[key].label,
+        data: dataForSet,
+        pointRadius: 1,
+        fill: false,
+        backgroundColor: color,
+        borderColor: color
+      };
+
+      //Convert human-readable timeframe string into milliseconds
+      var timeframeConversion = {
+        "1d": 86400000,
+        "1w": 604800000,
+        "1m": 2592000000,
+        "3m": 7776000000,
+        "1y": 31536000000,
+      }
+      var maximumTimeAgo = timeframeConversion[this.state.selectedTimeframe];
+
+      //Convert 2D array of points into JSON object, but only include data within desired timeframe
+      var previousPrices = [];
       for (var index in inputData[key].data) {
-        var itemDate = inputData[key].data[index][0];
-        var itemPrice =  inputData[key].data[index][1];
-        var timeAgo = (new Date()).getTime() - itemDate;
+        var itemDate = inputData[key].data[index][0]; //x-value
+        var itemPrice =  inputData[key].data[index][1]; //y-value
+        var timeAgo = (new Date()).getTime() - itemDate; //time elapsed (in milliseconds) since data point was recorded
 
-        var timeframeConversion = {
-          "1d": 86400000,
-          "1w": 604800000,
-          "1m": 2592000000,
-          "3m": 7776000000,
-          "1y": 31536000000,
+        //Maintain an array of prices from the last 6 hours to calculate moving avg
+        previousPrices.push(itemPrice);
+        if (previousPrices.length > 24) {
+          previousPrices.shift();
         }
 
-        var maximumTimeAgo = timeframeConversion[this.state.selectedTimeframe];
-        //Only include data within desired timeframe
-        if (timeAgo < maximumTimeAgo) {
-          dataForSet.push({x: inputData[key].data[index][0], y: inputData[key].data[index][1]});
+        //Get avg of array values
+        var averagePrice = 0;
+        for (var priceIndex in previousPrices) {
+          averagePrice += previousPrices[priceIndex];
         }
-        lastPrice = inputData[key].data[index][1];
+        averagePrice /= previousPrices.length;
+
+        //Exclude data older than the value specified by timeAgo
+        if (timeAgo < maximumTimeAgo && previousPrices.length >= 24 && index % 4 == 0) {
+          dataForSet.push({x: itemDate, y: averagePrice});
+        }
+
+      }
+
+      //Set last y-value (price) in point array as the last recorded price for the item.
+      if (inputData[key] != null) {
+        if (inputData[key].data != null && inputData[key].data.length > 0) {
+          lastPrice = inputData[key].data[inputData[key].data.length - 1][1];
+        }
       }
 
       chartData.push(dataSet);
     }
 
+    //Change saved timeframe value when a new timeframe is selected
+    const handleTimeframeSelectChange = (value) => {
+      this.setState({selectedTimeframe: value});
+    }
+
+    //UI code
+    return (
+      <div id="item-view" style={{display: "flex", flexFlow: "column", padding: 16, height: "calc(100% - 32px)", width: "calc(100% - 32px)"}}>
+        <p id="company-name-label" style={{flexGrow: 1, maxHeight: 16, lineHeight: "16px", fontSize: 16, margin: 0, padding: 0}}>{companyName.toUpperCase()}</p>
+        <p id="item-name-label" style={{flexGrow: 1, maxHeight: 32, lineHeight: "32px", fontSize: 32, margin: 0, marginTop: 8, padding: 0, fontWeight: 600}}>{itemName}</p>
+        <p id="item-price-label" style={{flexGrow: 1, maxHeight: 32, lineHeight: "32px", fontSize: 32, margin: 0, marginTop: 8, padding: 0}}>{"$" + lastPrice.toFixed(2)}</p>
+        <p id="msrp-label" style={{flexGrow: 1, maxHeight: 16, lineHeight: "16px", fontSize: 16, margin: 0, marginTop: 8, padding: 0}}>{"MSRP: $" + itemMsrp.toString()}</p>
+        <div id="chart-container" style={{flex:"1 0 0px", maxHeight: "75vw", paddingTop: 32, paddingBottom: 32, display: "flex",height:0}}>
+          <PriceChart data={chartData}/>
+        </div>
+        <div id="timeframe-select-container" style={{flexGrow: 1, maxHeight: 32, height: 32}}>
+          <TimeframeSelect onChange={handleTimeframeSelectChange} selectedItem={this.state.selectedTimeframe}/>
+        </div>
+      </div>
+    );
+  }
+}
+
+/**
+ * Display price-over-time chart with the provided data points.
+ *
+ * @param data the data to display. Must be in format:
+ *             [{x: price_dollars_1, y: time_millis_1},{x: price_dollars_2, y: time_millis_2},{x: price_dollars_3, y: time_millis_3},...]
+ */
+class PriceChart extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+
+    //Set up and configure chart data & display options
     const data = {
-      datasets: chartData
+      datasets: this.props.data
     };
 
     const options = {
@@ -243,29 +341,21 @@ class ItemView extends React.Component {
       },
     };
 
-    const handleTimeframeSelectChange = (value) => {
-      this.setState({selectedTimeframe: value});
-    }
-
     return (
-      <div id="item-view" style={{display: "flex", flexFlow: "column", padding: 16, height: "calc(100% - 32px)", width: "calc(100% - 32px)"}}>
-        <p id="company-name-label" style={{flexGrow: 1, maxHeight: 16, lineHeight: "16px", fontSize: 16, margin: 0, padding: 0}}>{companyName.toUpperCase()}</p>
-        <p id="item-name-label" style={{flexGrow: 1, maxHeight: 32, lineHeight: "32px", fontSize: 32, margin: 0, marginTop: 8, padding: 0, fontWeight: 600}}>{itemName}</p>
-        <p id="item-price-label" style={{flexGrow: 1, maxHeight: 32, lineHeight: "32px", fontSize: 32, margin: 0, marginTop: 8, padding: 0}}>{"$" + lastPrice.toFixed(2)}</p>
-        <p id="msrp-label" style={{flexGrow: 1, maxHeight: 16, lineHeight: "16px", fontSize: 16, margin: 0, marginTop: 8, padding: 0}}>{"MSRP: $" + itemMsrp.toString()}</p>
-        <div id="chart-container" style={{flex:"1 0 0px", maxHeight: "75vw", paddingTop: 32, paddingBottom: 32, display: "flex",height:0}}>
-          <div id="chart-parent" style={{flex: "1 0 0px", width: 1, display: "flex"}}>
-            <Line height={null} width={null} data={data} options={options} />
-          </div>
-        </div>
-        <div id="timeframe-select-container" style={{flexGrow: 1, maxHeight: 32, height: 32}}>
-          <TimeframeSelect onChange={handleTimeframeSelectChange} selectedItem={this.state.selectedTimeframe}/>
-        </div>
+      <div id="chart-parent" style={{flex: "1 0 0px", width: 1, display: "flex"}}>
+        <Line height={null} width={null} data={data} options={options} />
       </div>
     );
   }
 }
 
+/**
+ * Allows user to select a variety of timeframes. Primarily useful for
+ * time-based charts or tables (e.g. stock data)
+ *
+ * @param onChange the function to be called when the timeframe is changed, such as by user selection. A string representing the timeframe is passed to this function.
+ * @param selectedItem the timeframe which is currently selected
+ */
 class TimeframeSelect extends React.Component {
   constructor(props) {
     super(props);
@@ -279,6 +369,7 @@ class TimeframeSelect extends React.Component {
       }
     }
 
+    //UI code
     return (
       <div style={{display: "flex", height: "100%"}}>
         <CenteredFlex contentStyle={{flex: "2 0 0"}} style={{flex: "1 0 0"}}>
@@ -301,17 +392,28 @@ class TimeframeSelect extends React.Component {
   }
 }
 
+/**
+ * Custom styled button representing a selection for a specific timeframe.
+ *
+ * @param selectedItem the timeframe value currently selected
+ * @param value the timeframe value that this button represents
+ * @param handleTimeframeButtonClick the function to call when the timeframe is selected
+ */
 class TimeframeButton extends React.Component {
   constructor(props) {
     super(props);
 
   }
   render() {
+
+    //When button is clicked, pass onClick function call to parent if one exists
     const handleClick = (event) => {
       if (this.props.onClick != null) {
         this.props.onClick(event);
       }
     }
+
+    //UI code
     return (
       <button
         id={this.props.value}
@@ -325,6 +427,12 @@ class TimeframeButton extends React.Component {
   }
 }
 
+/**
+ * A flex container which automatically centers child child horizontally.
+ *
+ * @param style the style of the root element
+ * @param content the style of the div containing the child elements
+ */
 class CenteredFlex extends React.Component {
   constructor(props) {
     super(props);
@@ -332,7 +440,7 @@ class CenteredFlex extends React.Component {
 
   render() {
 
-    //Add display:flex style attribute if not overriden
+    //Add display:flex style attribute to root if not overriden
     var style = this.props.style;
     if (style == null){
       style = {display: "flex"};
@@ -342,6 +450,7 @@ class CenteredFlex extends React.Component {
       }
     }
 
+    //Add flex:"1 0 0" style attribute to content if not overriden
     var contentStyle = this.props.contentStyle;
     if (contentStyle == null) {
       contentStyle = {flex: "1 0 0"};
@@ -349,6 +458,7 @@ class CenteredFlex extends React.Component {
       contentStyle.flex = "1 0 0";
     }
 
+    //UI code
     return (
       <div class="centered-container" style={style}>
         <div class="centered-left" style={{flex: "1 0 0"}}></div>

@@ -6,11 +6,9 @@
 * it for processing.               *
 * -------------------------------- */
 
-var testMode = false;
-
 /*        pain         */
 
-export function JSON_RETRIEVE(jobID, REQUEST_LISTENER){
+export function JSON_RETRIEVE(jobID, REQUEST_LISTENER,testMode){
   if (testMode){
     REQUEST_LISTENER(jobID,true,require('../api/test/' + jobID + '.json'));
     //Retrieve sample data if API is not available
