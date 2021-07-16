@@ -5,6 +5,7 @@ import os
 import time
 from datetime import datetime
 
+# Set up command line arguments
 parser = argparse.ArgumentParser(description='Retrieve prices of items on eBay')
 parser.add_argument('-i', '--interval',default=15, type=int,help="Interval (in minutes) to scan prices")
 parser.add_argument('-t', '--test',default="false",help="Toggle test mode")
