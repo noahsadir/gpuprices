@@ -1,0 +1,21 @@
+gtx 1050
+gtx 1050 ti
+gtx 1060
+gtx 1070
+gtx 1070 ti
+gtx 1080
+gtx 1080 ti
+gtx 1660
+gtx 1660 super
+gtx 1660 ti
+rtx 2060
+rtx 2070
+rtx 2070 super
+rtx 2080
+rtx 2080 super
+rtx 2080 ti
+rtx 3060
+rtx 3060 ti
+rtx 3070
+rtx 3080
+rtx 3090

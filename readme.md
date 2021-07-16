@@ -1,4 +1,4 @@
-# GPU Price Tracker
+# (Nvidia) GPU Price Tracker
 
 ### Track the prices of various graphics cards on eBay
 
@@ -12,10 +12,7 @@ This web app tracks the average price of eBay auctions ending soonest, which can
 
 - Click on the desired card on the list to view a chart with a timeframe toggle below. It should have an app-like interface which is pretty self-explanatory.
 
-You can install it as an iOS web app too! "Share" -> "Add to Home Screen"
-
-I'm currently working on built-in PWA support for Chrome/Android web app functionality, but in the meanwhile,
-I made it into a web app using my other project, [Webappify](https://webappify.noahsadir.io/apps/6069f802b79c9/).
+You can install it as an iOS web app too! ```Share``` -> ```Add to Home Screen```
 
 ### How the data is collected
 
@@ -26,7 +23,8 @@ To determine the price of cards, the following criteria are used:
 - Average of 10 median prices
 
 These prices are then averaged together to form the final price estimate.
-Note: I'm not a statistician. There are certainly better ways to get an accurate price, but I've found that this is the simplest way to get a fairly accurate price.
+
+_Note:_ I'm not a statistician. There are certainly better ways to get an accurate price, but I've found that this is the simplest way to get a fairly accurate price.
 
 ### Why pick the 10 median prices?
 
@@ -43,8 +41,6 @@ Still, I personally find a 5-10% underestimate better than a random 600% spike i
 
 This data is purely for entertainment purposes and to highlight the ridiculous prices that these cards are selling for. They are in no way to be used for making buying decisions and should not be relied on to do so.
 
-I do not support nor condone scalpers and certainly would not purchase any of these cards myself due to ethical reasons and common sense.
+Furthermore, it's particularly hard to get the price of a specific variant of a GPU, especially the base models. For example, the cards that show up under the search ```rtx 3060``` may include a mix of the standard 3060 and the 3060 Ti. Also, I've seen non-Ti cards show up under ```rtx 2080 ti``` because the card is listed as ```RTX 2080 (NOT Ti)```. Additionally, cards from different manufacturers (EVGA, MSI, ASUS, etc.) sell at different prices, which may also impact the price quote.
 
-Furthermore, it's particularly hard to get the price of a specific variant of a GPU, especially the base models. For example, the cards that show up under the search 'rtx 3060' may include a mix of the standard 3060 and the 3060 Ti. Also, I've seen non-Ti cards show up under 'rtx 2080 ti' because the card is listed as 'RTX 2080 (NOT Ti)'.
-
-Overall, as mentioned before, this is for entertainment purposes only and serves to give a ballpark estimate rather than a precise price quote.
+Overall, as mentioned before, this is for entertainment purposes only and serves to give a ballpark estimate rather than a precise price quote. It's best to use the data to observe price trends.
