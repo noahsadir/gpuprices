@@ -29,17 +29,17 @@ _Note:_ I'm not a statistician. There are certainly better ways to get an accura
 ### Why pick the 10 median prices?
 
 There tends to be significant outliers which affect the data, such as:
-- An auction listed with an outrageous starting price with no bids (e.g. $20,000 for a GTX 1050)
+- An auction listed with an outrageous starting price with no bids (e.g. $20,000 for a 1050)
 - Someone selling mulitple cards at a time (e.g. $10,000 for 4 RTX 3080s)
 - A listing for an unrelated or loosely related item (e.g. $50 for a replacement fan)
 
-As such, picking the 10 median cards (out of 50ish listings) seems to be the best way, though it may be a slight underestimate as the auctions that get bid up last minute tend to get thrown out.
+As such, picking the 10 median cards (out of 50ish listings) seems to be the best way, though it may be a slight underestimate as the auctions that get bid up last minute tend to get ignored.
 
 Still, I personally find a 5-10% underestimate better than a random 600% spike in the data caused by the aforementioned outliers.
 
 ### Limitations
 
-This data is purely for entertainment purposes and to highlight the ridiculous prices that these cards are selling for. They are in no way to be used for making buying decisions and should not be relied on to do so.
+This data is purely for educational purposes. It is not intended to be used for making buying decisions and should not be relied on to do so.
 
 Furthermore, it's particularly hard to get the price of a specific variant of a GPU, especially the base models. For example, the cards that show up under the search ```rtx 3060``` may include a mix of the standard 3060 and the 3060 Ti. Also, I've seen non-Ti cards show up under ```rtx 2080 ti``` because the card is listed as ```RTX 2080 (NOT Ti)```. Additionally, cards from different manufacturers (EVGA, MSI, ASUS, etc.) sell at different prices, which may also impact the price quote.
 
