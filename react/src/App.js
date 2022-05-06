@@ -15,6 +15,7 @@ import { Line } from 'react-chartjs-2'
 
 var itemDisplayInfo = require('./itemDisplayInfo.json');
 var isTestMode = false;
+var priceInterval = 3600000;
 
 /**
  * Main object and "starting" point of the app.
@@ -46,9 +47,8 @@ export default class App extends React.Component {
 
     //Price data not yet retrieved; fetch asynchronously
     if (this.state.didFetchData == false) {
-      JSON_RETRIEVE("FETCH_PRICES", (type, success, data) => {
+      JSON_RETRIEVE("FETCH_PRICES", {interval: priceInterval, start: 0}, (type, success, data) => {
         if (success) {
-          //console.log(data);
           this.setState({data: data, didFetchData: true});
         }
       }, isTestMode); //Will fetch dummy if isTestMode is true
@@ -104,7 +104,7 @@ class NavigationBar extends React.Component {
           <p id="item-view-title" style={{height: 48, textAlign: "center", paddingRight: 64, lineHeight: "48px", margin: 0, fontSize: 20, fontWeight: 600}}>Overview</p>
         </div>
         <div id="title-container" class={(this.props.selectedItem == null) ? "content-active" : "content-inactive"} style={{display: "flex", flexFlow: "column", flexGrow: 1, padding: 8, margin: 0}}>
-          <p id="title" style={{height: 32, lineHeight: "32px", margin: 0, paddingLeft: 8, fontSize: 24, fontWeight: 600}}>GPU Price Tracker</p>
+          <p id="title" style={{height: 32, lineHeight: "32px", margin: 0, paddingLeft: 8, fontSize: 24, fontWeight: 600}}>NVIDIA Price Tracker</p>
           <p id="subtitle" style={{height: 14, lineHeight: "14px", margin: 0, paddingLeft: 8, fontSize: 14}}>by Noah Sadir</p>
         </div>
         <div id="source-button-container" class={(this.props.selectedItem == null) ? "content-active" : "content-inactive"} style={{display: "flex", flexGrow: 1, minWidth: 64, maxWidth: 64, minHeight: 64, maxHeight: 64, padding: 0, margin: 0}}>
@@ -211,6 +211,7 @@ class ItemView extends React.Component {
       }
     ];
 
+    var timeAgoForPrevious = 0;
     //Process data in each series
     for (var key in inputData) {
 
@@ -237,8 +238,20 @@ class ItemView extends React.Component {
         "1m": 2592000000,
         "3m": 7776000000,
         "1y": 31536000000,
+        "5y": 157680000000
       }
+
+      var movingAvgConversion = {
+        "1d": 6,
+        "1w": 6,
+        "1m": 12,
+        "3m": 18,
+        "1y": 24,
+        "5y": 48
+      }
+
       var maximumTimeAgo = timeframeConversion[this.state.selectedTimeframe];
+      var movingAvgValue = movingAvgConversion[this.state.selectedTimeframe];
 
       //Convert 2D array of points into JSON object, but only include data within desired timeframe
       var previousPrices = [];
@@ -246,10 +259,16 @@ class ItemView extends React.Component {
         var itemDate = inputData[key].data[index][0]; //x-value
         var itemPrice =  inputData[key].data[index][1]; //y-value
         var timeAgo = (new Date()).getTime() - itemDate; //time elapsed (in milliseconds) since data point was recorded
+        var changeInTime = timeAgoForPrevious - timeAgo;
+        timeAgoForPrevious = timeAgo;
+
+        if (changeInTime > priceInterval * 10) {
+          previousPrices = [];
+        }
 
         //Maintain an array of prices from the last 6 hours to calculate moving avg
         previousPrices.push(itemPrice);
-        if (previousPrices.length > 24) {
+        if (previousPrices.length > movingAvgValue) {
           previousPrices.shift();
         }
 
@@ -261,7 +280,7 @@ class ItemView extends React.Component {
         averagePrice /= previousPrices.length;
 
         //Exclude data older than the value specified by timeAgo
-        if (timeAgo < maximumTimeAgo && previousPrices.length >= 24 && index % 4 == 0) {
+        if (timeAgo < maximumTimeAgo && previousPrices.length >= movingAvgValue && index % (movingAvgValue / 6) == 0) {
           dataForSet.push({x: itemDate, y: averagePrice});
         }
 
@@ -386,6 +405,9 @@ class TimeframeSelect extends React.Component {
         </CenteredFlex>
         <CenteredFlex contentStyle={{flex: "2 0 0"}} style={{flex: "1 0 0"}}>
           <TimeframeButton selectedItem={this.props.selectedItem} value="1y" onClick={handleTimeframeButtonClick}/>
+        </CenteredFlex>
+        <CenteredFlex contentStyle={{flex: "2 0 0"}} style={{flex: "1 0 0"}}>
+          <TimeframeButton selectedItem={this.props.selectedItem} value="5y" onClick={handleTimeframeButtonClick}/>
         </CenteredFlex>
       </div>
     );

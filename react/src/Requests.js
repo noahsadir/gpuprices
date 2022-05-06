@@ -8,7 +8,7 @@
 
 /*        pain         */
 
-export function JSON_RETRIEVE(jobID, REQUEST_LISTENER,testMode){
+export function JSON_RETRIEVE(jobID, args, REQUEST_LISTENER, testMode){
   if (testMode){
     REQUEST_LISTENER(jobID,true,require('../api/test/' + jobID + '.json'));
     //Retrieve sample data if API is not available
@@ -18,8 +18,8 @@ export function JSON_RETRIEVE(jobID, REQUEST_LISTENER,testMode){
     var fetchDetails = {};
 
     //Determine URL to send request to and the data to send with it.
-    if (jobID == "FETCH_PRICES"){
-      urlValue = "../api/fetch_prices.php";
+    if (jobID == "FETCH_PRICES") {
+      urlValue = "../api/fetch_prices.php?interval=" + args.interval.toString() + "&from=" + args.start.toString();
     }
 
     console.log("fetching data from " + urlValue);

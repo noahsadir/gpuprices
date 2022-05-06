@@ -2,7 +2,7 @@
 
 ### Track the prices of various graphics cards on eBay
 
-As many may know, demand for graphics cards has skyrocketed and supply shortages have led to them being out of stock nearly everywhere, causing cards to sell on eBay at incredibly marked up prices.
+As many may know, graphics card prices skyrocketed throughout 2021 for various reasons.
 
 This web app tracks the average price of eBay auctions ending soonest, which can usually provide a good indicator for what people are willing to pay for these cards.
 
